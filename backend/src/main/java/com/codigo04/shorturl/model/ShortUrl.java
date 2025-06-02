@@ -28,6 +28,9 @@ public class ShortUrl {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "usage_count", nullable = false)
+    private int usageCount = 0;
+
     public ShortUrl() {}
 
     public ShortUrl(String name, String prefix, String originalUrl) {
@@ -35,10 +38,15 @@ public class ShortUrl {
         this.prefix = prefix;
         this.originalUrl = originalUrl;
         this.createdAt = LocalDateTime.now();
+        this.usageCount = 0;
     }
 
     public String getFullShortUrl() {
         return prefix != null ? prefix + "/" + name : name;
+    }
+
+    public void incrementUsageCount() {
+        this.usageCount++;
     }
 
     public Long getId() {
@@ -73,6 +81,13 @@ public class ShortUrl {
         return createdAt;
     }
 
+    public int getUsageCount() {
+        return usageCount;
+    }
+
+    public void setUsageCount(int usageCount) {
+        this.usageCount = usageCount;
+    }
 }
 
 

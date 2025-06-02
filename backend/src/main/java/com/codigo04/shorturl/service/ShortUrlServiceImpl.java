@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class ShortUrlServiceImpl implements ShortUrlService{
+public class ShortUrlServiceImpl implements ShortUrlService {
     private static final int LENGTH_SHORT_URL = 7;
     private final ShortUrlRepository repository;
 
@@ -41,29 +41,34 @@ public class ShortUrlServiceImpl implements ShortUrlService{
     @Override
     public Optional<String> resolveOriginalUrl(String prefix, String name) {
         return findByPrefixNullableAndName(prefix, name)
-                .map(ShortUrl::getOriginalUrl);
+                .map(shortUrl -> {
+                    shortUrl.incrementUsageCount();
+                    repository.save(shortUrl);
+                    return shortUrl.getOriginalUrl();
+                });
+
     }
 
-    private ShortUrl composeNewShorUrl(ShortUrlRequest request){
+    private ShortUrl composeNewShorUrl(ShortUrlRequest request) {
         ShortUrl shortUrl = new ShortUrl(request.name(), request.prefix(), request.originalUrl());
-        if(shortUrl.getName() == null || shortUrl.getName().isBlank()){
+        if (shortUrl.getName() == null || shortUrl.getName().isBlank()) {
             shortUrl.setName(getUniqueRandomName());
         }
         return shortUrl;
     }
 
-    private Optional<ShortUrl> findByPrefixNullableAndName(String prefix, String name){
+    private Optional<ShortUrl> findByPrefixNullableAndName(String prefix, String name) {
         return (prefix == null || prefix.isBlank())
                 ? repository.findByPrefixIsNullAndName(name)
                 : repository.findByPrefixAndName(prefix, name);
     }
 
-    private String getUniqueRandomName(){
+    private String getUniqueRandomName() {
         String name = Base62Shortener.generateRandomBase62(LENGTH_SHORT_URL);
         boolean unique;
         do {
             unique = repository.findByPrefixAndName(null, name).isEmpty();
-        }while (!unique);
+        } while (!unique);
 
         return name;
     }

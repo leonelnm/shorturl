@@ -15,8 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ShortUrlServiceImplTest {
 
@@ -93,5 +92,26 @@ public class ShortUrlServiceImplTest {
 
         assertFalse(result.isPresent());
     }
+
+    @Test
+    void testResolveOriginalUrl_IncrementsUsageCount() {
+        String name = "abc123";
+        ShortUrl shortUrl = new ShortUrl(name, null, "http://example.com");
+
+        shortUrl.setUsageCount(3);
+
+        when(repository.findByPrefixIsNullAndName(name)).thenReturn(Optional.of(shortUrl));
+        when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Optional<String> result = service.resolveOriginalUrl(null, name);
+
+        assertTrue(result.isPresent());
+        assertEquals("http://example.com", result.get());
+
+        assertEquals(4, shortUrl.getUsageCount());
+
+        verify(repository).save(shortUrl);
+    }
+
 
 }

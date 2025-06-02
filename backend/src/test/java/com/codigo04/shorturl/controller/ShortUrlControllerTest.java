@@ -72,7 +72,7 @@ public class ShortUrlControllerTest {
                 .thenReturn(Optional.of(originalUrl));
 
         mockMvc.perform(get("/" + prefix + "/" + name))
-                .andExpect(status().isFound())
+                .andExpect(status().isMovedPermanently())
                 .andExpect(header().string("Location", originalUrl));
     }
 
@@ -94,7 +94,7 @@ public class ShortUrlControllerTest {
                 .thenReturn(Optional.of(originalUrl));
 
         mockMvc.perform(get("/" + name))
-                .andExpect(status().isFound())
+                .andExpect(status().isMovedPermanently())
                 .andExpect(header().string("Location", originalUrl));
     }
 

@@ -58,7 +58,7 @@ public class ShortUrlIntegrationTest {
 
         // GET para redirigir
         mockMvc.perform(get("/mytest"))
-                .andExpect(status().isFound())
+                .andExpect(status().isMovedPermanently())
                 .andExpect(header().string("Location", "http://example.com"));
     }
 

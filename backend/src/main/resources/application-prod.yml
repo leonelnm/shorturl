@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${SHORT_URL_DATABASE_URL}
+    username: ${SHORT_URL_DATABASE_USER}
+    password: ${SHORT_URL_DATABASE_PASS}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false

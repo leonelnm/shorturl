@@ -1,0 +1,13 @@
+services:
+  shorturl-app:
+    environment:
+      - SHORT_URL_DATABASE_URL
+      - SHORT_URL_DATABASE_USER
+      - SHORT_URL_DATABASE_PASS
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shorturl-app
+    ports:
+      - "8081:8080"
+    restart: unless-stopped

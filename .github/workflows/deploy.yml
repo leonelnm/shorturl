@@ -1,0 +1,31 @@
+name: Deploy backend to VPS with Docker
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy.yml'
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    env:
+      SHORT_URL_DATABASE_URL: ${{ secrets.SHORT_URL_DATABASE_URL }}
+      SHORT_URL_DATABASE_USER: ${{ secrets.SHORT_URL_DATABASE_USER }}
+      SHORT_URL_DATABASE_PASS: ${{ secrets.SHORT_URL_DATABASE_PASS }}
+
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build and Deploy with Docker
+        run: |
+          docker compose down
+          docker compose build
+          docker compose up -d

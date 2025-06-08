@@ -11,10 +11,10 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-#    env:
-#      SHORT_URL_DATABASE_URL: ${{ secrets.SHORT_URL_DATABASE_URL }}
-#      SHORT_URL_DATABASE_USER: ${{ secrets.SHORT_URL_DATABASE_USER }}
-#      SHORT_URL_DATABASE_PASS: ${{ secrets.SHORT_URL_DATABASE_PASS }}
+    env:
+      SHORT_URL_DATABASE_URL: ${{ secrets.SHORT_URL_DATABASE_URL }}
+      SHORT_URL_DATABASE_USER: ${{ secrets.SHORT_URL_DATABASE_USER }}
+      SHORT_URL_DATABASE_PASS: ${{ secrets.SHORT_URL_DATABASE_PASS }}
 
     defaults:
       run:
@@ -24,11 +24,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Crear archivo .env con secretos
+      - name: Descargar certificado de CockroachDB
         run: |
-          echo "SHORT_URL_DATABASE_URL=${{ secrets.SHORT_URL_DATABASE_URL }}" >> .env
-          echo "SHORT_URL_DATABASE_USER=${{ secrets.SHORT_URL_DATABASE_USER }}" >> .env
-          echo "SHORT_URL_DATABASE_PASS=${{ secrets.SHORT_URL_DATABASE_PASS }}" >> .env
+          mkdir -p .postgresql
+          curl -o .postgresql/root.crt "${{ secrets.COCKROACH_CERT_URL }}"
 
       - name: Build and Deploy with Docker
         run: |

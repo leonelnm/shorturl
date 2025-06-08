@@ -11,10 +11,10 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-    env:
-      SHORT_URL_DATABASE_URL: ${{ secrets.SHORT_URL_DATABASE_URL }}
-      SHORT_URL_DATABASE_USER: ${{ secrets.SHORT_URL_DATABASE_USER }}
-      SHORT_URL_DATABASE_PASS: ${{ secrets.SHORT_URL_DATABASE_PASS }}
+#    env:
+#      SHORT_URL_DATABASE_URL: ${{ secrets.SHORT_URL_DATABASE_URL }}
+#      SHORT_URL_DATABASE_USER: ${{ secrets.SHORT_URL_DATABASE_USER }}
+#      SHORT_URL_DATABASE_PASS: ${{ secrets.SHORT_URL_DATABASE_PASS }}
 
     defaults:
       run:
@@ -23,6 +23,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Crear archivo .env con secretos
+        run: |
+          echo "SHORT_URL_DATABASE_URL=${{ secrets.SHORT_URL_DATABASE_URL }}" >> backend/.env
+          echo "SHORT_URL_DATABASE_USER=${{ secrets.SHORT_URL_DATABASE_USER }}" >> backend/.env
+          echo "SHORT_URL_DATABASE_PASS=${{ secrets.SHORT_URL_DATABASE_PASS }}" >> backend/.env
 
       - name: Build and Deploy with Docker
         run: |

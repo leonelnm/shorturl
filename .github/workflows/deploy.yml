@@ -26,9 +26,9 @@ jobs:
 
       - name: Crear archivo .env con secretos
         run: |
-          echo "SHORT_URL_DATABASE_URL=${{ secrets.SHORT_URL_DATABASE_URL }}" >> backend/.env
-          echo "SHORT_URL_DATABASE_USER=${{ secrets.SHORT_URL_DATABASE_USER }}" >> backend/.env
-          echo "SHORT_URL_DATABASE_PASS=${{ secrets.SHORT_URL_DATABASE_PASS }}" >> backend/.env
+          echo "SHORT_URL_DATABASE_URL=${{ secrets.SHORT_URL_DATABASE_URL }}" >> .env
+          echo "SHORT_URL_DATABASE_USER=${{ secrets.SHORT_URL_DATABASE_USER }}" >> .env
+          echo "SHORT_URL_DATABASE_PASS=${{ secrets.SHORT_URL_DATABASE_PASS }}" >> .env
 
       - name: Build and Deploy with Docker
         run: |

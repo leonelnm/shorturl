@@ -5,7 +5,7 @@ services:
       - SHORT_URL_DATABASE_USER
       - SHORT_URL_DATABASE_PASS
     volumes:
-      - ./backend/.postgresql:/root/.postgresql
+      - ./.postgresql:/root/.postgresql
     build:
       context: .
       dockerfile: Dockerfile

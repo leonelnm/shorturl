@@ -1,17 +1,17 @@
 services:
-  mariadb:
-    image: mariadb:11
-    container_name: mariadb-shorturl
+  postgres:
+    image: postgres:16.9-alpine3.22
+    container_name: postgres-shorturl
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: shorturl_db
-      MARIADB_USER: devuser
-      MARIADB_PASSWORD: devpass
+      POSTGRES_DB: shorturl_db
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpass
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - db_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
 
 volumes:
-  db_data:
+  pg_data:

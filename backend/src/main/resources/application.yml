@@ -5,14 +5,14 @@ spring:
     name: shorturl
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/shorturl_db
+    url: jdbc:postgresql://localhost:5432/shorturl_db
     username: devuser
     password: devpass
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto:
     show-sql: true
     properties:
       hibernate:

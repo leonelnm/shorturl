@@ -3,7 +3,7 @@ spring:
     url: ${SHORT_URL_DATABASE_URL}
     username: ${SHORT_URL_DATABASE_USER}
     password: ${SHORT_URL_DATABASE_PASS}
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
